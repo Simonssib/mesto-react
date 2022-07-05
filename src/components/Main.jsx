@@ -1,31 +1,40 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import React from "react";
 import "../index.css";
 import api from "../utils/api.js";
 import Card from "./Card.jsx";
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
+
   const [cards, setCards] = useState([]);
+  const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
-    Promise.all([api.getInitialCards(), api.getUserInfo()])
-      .then(([cards, data]) => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
+    Promise.all([api.getInitialCards()])
+      .then(([cards]) => {
         setCards(cards);
       })
       .catch((err) => console.log(err));
   }, []);
+/*
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      });
+  }
 
+  function handleCardDelete(card) {
+
+  }
+*/
   return (
     <main className="main">
       <section className="profile">
         <div className="profile__avatar-container">
-          <img alt="Аватар" className="profile__avatar" src={userAvatar} />
+          <img alt="Аватар" className="profile__avatar" src={currentUser.avatar} />
           <button
             onClick={onEditAvatar}
             type="button"
@@ -35,14 +44,14 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
 
         <div className="profile__info">
           <div className="profile__info-edit">
-            <h1 className="profile__name">{userName}</h1>
+            <h1 className="profile__name">{currentUser.name}</h1>
             <button
               onClick={onEditProfile}
               className="profile__button-edit"
               type="button"
             ></button>
           </div>
-          <p className="profile__profession">{userDescription}</p>
+          <p className="profile__profession">{currentUser.about}</p>
         </div>
         <button
           onClick={onAddPlace}
