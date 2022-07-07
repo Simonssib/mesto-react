@@ -65,6 +65,20 @@ class Api {
         }).then(this._checkError);
     };
 
+    toggleLike(id, isLiked) {
+        if (isLiked) {
+            return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+                method: 'PUT',
+                headers: this._headers
+            }).then(this._checkError);
+        } else {
+            return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+                method: 'DELETE',
+                headers: this._headers
+            }).then(this._checkError);
+        }
+    }
+
     editUserAvatar(url) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',

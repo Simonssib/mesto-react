@@ -23,6 +23,7 @@
 @import url(./blocks/elements/__button-delete/elements__button-delete.css);
 @import url(./blocks/elements/__group-like/elements__group-like.css);
 @import url(./blocks/elements/__number-like/elements__number-like.css);
+@import url(./blocks/elements/__button-delete/_hidden/elements__button-delete_hidden.css);
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__copyright/footer__coryright.css);
 @import url(./blocks/main/main.css);
