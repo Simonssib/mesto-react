@@ -1,15 +1,26 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import React, { useRef } from "react";
+
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({  }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+  const placeUrl = useRef("");
+  const placeName = useRef("");
 
-    return (
-      <PopupWithForm
+  function handleSubmit(e) {
+    e.preventDefault();
+    onAddPlace({
+      name: placeName.current.value,
+      link: placeUrl.current.value,
+    });
+  }
+
+  return (
+    <PopupWithForm
       title="Новое место"
       name="post"
-      isOpen={isAddPlacePopupOpen}
-      onClose={closeAllPopups}
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit}
       buttonText="Сохранить"
     >
       <label className="popup__input-container">
@@ -22,6 +33,7 @@ function AddPlacePopup({  }) {
           placeholder="Название места"
           minLength="2"
           maxLength="30"
+          ref={placeName}
         />
         <span className="popup__input-error title-input-error"></span>
       </label>
@@ -33,9 +45,12 @@ function AddPlacePopup({  }) {
           required
           className="popup__field popup__field_text_link"
           placeholder="Ссылка на картинку"
+          ref={placeUrl}
         />
         <span className="popup__input-error link-input-error"></span>
       </label>
     </PopupWithForm>
-    )
-  }
+  );
+}
+
+export default AddPlacePopup;
