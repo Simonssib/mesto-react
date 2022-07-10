@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import React from "react";
 import "../index.css";
-import api from "../utils/api.js";
 import Card from "./Card.jsx";
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 

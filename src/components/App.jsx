@@ -17,6 +17,15 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    Promise.all([api.getInitialCards()])
+      .then(([cards]) => {
+        setCards(cards);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     Promise.all([api.getUserInfo()])
@@ -69,16 +78,6 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    Promise.all([api.getInitialCards()])
-      .then(([cards]) => {
-        setCards(cards);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     api
@@ -95,7 +94,7 @@ function App() {
     api
       .deleteCard(card._id)
       .then(() => {
-        setCards(cards.filter((currentUser) => currentUser._id !== card._id));
+        setCards(state => state.filter((currentUser) => currentUser._id !== card._id));
       })
       .catch((err) => console.log(err));
   }
