@@ -10,11 +10,14 @@ import api from "../utils/api.js";
 import EditProfilePopup from "./EditProfilePopup.jsx";
 import EditAvatarPopup from "./EditAvatarPopup.jsx";
 import AddPlacePopup from "./AddPlacePopup.jsx";
+import ConfirmPopup from "./ConfirmPopup.jsx";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  //попап подтверждения нереализовал, в чек листе он отсутвует, поэтому решил пока оставить
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -49,6 +52,10 @@ function App() {
 
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
+  };
+  //попап подтверждения нереализовал, в чек листе он отсутвует, поэтому решил пока оставить
+  const handleConfirmDeleteClick = () => {
+    setIsConfirmPopupOpen(true);
   };
 
   const closeAllPopups = () => {
@@ -146,15 +153,11 @@ function App() {
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-        <div className="popup popup-confirm">
-          <div className="popup__container">
-            <button className="popup__close" type="button"></button>
-            <h2 className="popup__title">Вы уверены?</h2>
-            <button className="popup__confirm" type="submit" name="submit">
-              Да
-            </button>
-          </div>
-        </div>
+        <ConfirmPopup 
+          isOpen={isConfirmPopupOpen}
+          onClose={closeAllPopups}
+          onConfirmDelete={handleCardDelete}
+        />
       </div>
     </CurrentUserContext.Provider>
   );
